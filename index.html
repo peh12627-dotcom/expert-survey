@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>교육과정 타당성 검토 전문가 서면조사 · 트렌드 인사이트 역량개발 과정</title>
+<style>
+  :root{
+    /* 부산 상징 팔레트 : 바다·파도(부산 블루) + 동백(카멜리아 레드) */
+    --navy:#0d3b6e; --navy-2:#155a9e; --sea:#1a7fc4; --sea-light:#4db6dd;
+    --camellia:#d5352b; --gold:#c8952f;
+    --ink:#1a2432; --muted:#8a93a6;
+    --line:#dfe6f2; --paper:#eef4fa; --surface:#ffffff; --accent:#d5352b;
+    --shadow:0 8px 30px rgba(13,59,110,.12);
+    --r:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:28px 18px 120px;}
+
+  header.doc{
+    position:relative; color:#fff; border-radius:var(--r) var(--r) 0 0;
+    padding:30px 30px 40px; overflow:hidden;
+    background:linear-gradient(135deg,#0d3b6e 0%,#155a9e 55%,#1a7fc4 120%);
+  }
+  header.doc .gulls{position:absolute; right:34px; top:32px; opacity:.9;}
+  header.doc .gulls svg{display:block;}
+  header.doc .brand{position:relative; z-index:2;}
+  header.doc .eyebrow{font-size:12px; letter-spacing:.18em; color:#bfe0f2; font-weight:600;}
+  header.doc h1{font-size:23px; font-weight:800; margin:8px 0 6px; letter-spacing:-.01em;
+    text-shadow:0 1px 12px rgba(0,0,0,.15);}
+  header.doc .course{font-size:14.5px; color:#e3f1fb;}
+  header.doc .course .old{color:#a9cbe4; font-size:12.5px;}
+  /* 파도 물결 (헤더 하단) */
+  .wave{display:block; width:100%; height:34px; margin-top:-1px;}
+  .doc-top{border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow); background:var(--navy);}
+
+  .intro{background:var(--surface); border-radius:var(--r); padding:20px 24px; margin-top:14px;
+    box-shadow:var(--shadow); font-size:14px; color:#3a4258;}
+  .intro p{margin-bottom:9px;}
+  .intro .note{font-size:12.8px; color:#5a627a; background:var(--paper); border-radius:9px; padding:10px 13px;}
+  .intro b{color:var(--navy);}
+
+  section.block{background:var(--surface); border-radius:var(--r); margin-top:16px; box-shadow:var(--shadow); overflow:hidden;}
+  section.block > h2{
+    position:relative; background:linear-gradient(100deg,var(--navy),var(--navy-2)); color:#fff;
+    font-size:15px; font-weight:700; padding:13px 22px 13px 26px; letter-spacing:.01em;
+    border-left:5px solid var(--camellia);
+  }
+  .block-body{padding:20px 22px;}
+
+  /* respondent grid */
+  .grid{display:grid; grid-template-columns:130px 1fr; gap:12px 16px; align-items:center;}
+  .grid label{font-weight:600; font-size:13.5px; color:#3a4258;}
+  .grid input, .grid select{
+    width:100%; border:1.5px solid var(--line); border-radius:9px; padding:9px 12px; font-size:14px;
+    font-family:inherit; background:#fff; transition:.12s;
+  }
+  .grid input:focus, .grid select:focus{outline:none; border-color:var(--navy-2);}
+
+  /* items */
+  .item{padding:18px 0; border-bottom:1px solid var(--line);}
+  .item:last-child{border-bottom:none;}
+  .item .q{display:flex; gap:10px; margin-bottom:12px;}
+  .item .tag{flex-shrink:0; background:#eef2f9; color:var(--navy); font-weight:700; font-size:12.5px;
+    border-radius:7px; padding:4px 9px; height:fit-content; white-space:nowrap;}
+  .item .qtext{font-size:14.3px; color:#28304a; font-weight:500;}
+  .item .qtext .sub{display:block; font-size:12.5px; color:var(--muted); font-weight:400; margin-top:3px;}
+
+  .scale{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;}
+  .scale .opt{flex:1; min-width:74px;}
+  .scale .opt input{position:absolute; opacity:0; pointer-events:none;}
+  .scale .opt .mark{
+    display:block; text-align:center; border:1.5px solid var(--line); border-radius:9px;
+    padding:8px 4px; cursor:pointer; font-size:13px; transition:.12s; user-select:none; background:#fff;
+  }
+  .scale .opt .mark b{display:block; font-size:15px; color:var(--navy); font-weight:800;}
+  .scale .opt .mark span{font-size:11px; color:var(--muted);}
+  .scale .opt input:checked + .mark{border-color:var(--navy); background:var(--navy); color:#fff;}
+  .scale .opt input:checked + .mark b, .scale .opt input:checked + .mark span{color:#fff;}
+  .scale .opt .mark:hover{border-color:var(--navy-2);}
+
+  textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:9px; padding:10px 12px; font-size:13.5px;
+    font-family:inherit; min-height:52px; resize:vertical; background:#fff; transition:.12s;
+  }
+  textarea:focus{outline:none; border-color:var(--navy-2);}
+  .opinion label{display:block; font-size:12.5px; color:#5a627a; margin-bottom:5px; font-weight:600;}
+
+  .fld{margin-bottom:16px;}
+  .fld > label{display:block; font-weight:600; font-size:14px; color:#28304a; margin-bottom:7px;}
+  .verdict{display:flex; gap:18px; flex-wrap:wrap;}
+  .verdict label{display:flex; align-items:center; gap:7px; font-size:14px; cursor:pointer; font-weight:500;}
+
+  .cvi{background:var(--paper); border-radius:var(--r); padding:16px 20px; margin-top:16px; font-size:12.8px; color:#4a5268;}
+  .cvi b{color:var(--navy); display:block; margin-bottom:7px; font-size:13.5px;}
+  .cvi ul{padding-left:18px;}
+  .cvi li{margin-bottom:4px;}
+
+  .foot-crest{display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-top:22px; color:var(--muted); font-size:12px; letter-spacing:.04em;}
+  .foot-crest svg{flex-shrink:0;}
+
+  .bar{position:fixed; bottom:0; left:0; right:0; background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px); border-top:1px solid var(--line); padding:12px 18px;
+    display:flex; gap:10px; justify-content:center; align-items:center; z-index:50;}
+  .btn{border:none; cursor:pointer; border-radius:10px; padding:12px 22px; font-size:14.5px;
+    font-weight:600; font-family:inherit; transition:.12s;}
+  .btn-primary{background:var(--navy); color:#fff;}
+  .btn-primary:hover{background:#182b4f;}
+  .btn-primary:disabled{background:var(--muted); cursor:default;}
+  .btn-ghost{background:#fff; color:var(--navy); border:1.5px solid var(--navy);}
+  .btn-ghost:hover{background:#eef2f9;}
+  .status{font-size:12.5px; color:var(--muted);}
+
+  .toast{position:fixed; left:50%; top:22px; transform:translateX(-50%) translateY(-20px); opacity:0;
+    background:var(--navy); color:#fff; padding:12px 22px; border-radius:10px; font-size:14px; z-index:100;
+    transition:.25s; pointer-events:none; box-shadow:var(--shadow); max-width:90vw;}
+  .toast.show{transform:translateX(-50%) translateY(0); opacity:1;}
+  .toast.err{background:var(--accent);}
+
+  .print-only{display:none;}
+  @media print{
+    @page{margin:14mm 12mm;}
+    body{background:#fff; font-size:11.5px;}
+    .wrap{max-width:none; padding:0;}
+    .bar,.toast{display:none !important;}
+    .print-only{display:block; text-align:right; font-size:11px; color:#666; margin-bottom:6px;}
+    header.doc, section.block > h2{background:var(--navy) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+    section.block, .intro{box-shadow:none; border:1px solid #ccc; break-inside:avoid;}
+    .item{break-inside:avoid;}
+    .scale .opt input:not(:checked) + .mark{opacity:.4;}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:96px 1fr;}
+    .scale .opt{min-width:60px;}
+    .scale .opt .mark span{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="wrap">
+
+  <div class="doc-top">
+    <header class="doc">
+      <div class="gulls" aria-hidden="true">
+        <svg width="80" height="34" viewBox="0 0 80 34" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round">
+          <path d="M4 20 Q13 8 22 20"/>
+          <path d="M20 14 Q29 2 38 14"/>
+          <path d="M40 24 Q49 12 58 24"/>
+        </svg>
+      </div>
+      <div class="brand">
+        <p class="eyebrow">부산광역시인재개발원 · 전문교육과</p>
+        <h1>교육과정 타당성 검토 전문가 서면조사</h1>
+        <p class="course">「2026년 트렌드 인사이트 역량개발 과정」<span class="old"> (구, 부산비전 인사이트 리서치 과정)</span></p>
+      </div>
+    </header>
+    <svg class="wave" viewBox="0 0 1200 34" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,20 C150,34 300,4 450,16 C600,28 750,6 900,16 C1050,26 1150,14 1200,18 L1200,34 L0,34 Z" fill="#4db6dd" opacity="0.55"/>
+      <path d="M0,24 C150,10 320,30 480,22 C640,14 780,30 950,22 C1080,16 1150,24 1200,22 L1200,34 L0,34 Z" fill="#ffffff"/>
+    </svg>
+  </div>
+
+  <div class="intro">
+    <p>바쁘신 중에도 조사에 응해 주셔서 감사합니다. 본 설문은 「트렌드 인사이트 역량개발 과정」의 교육과정 타당성을 전문가 관점에서 검토하기 위한 것입니다. 이 과정은 초혁신·선도형 행정으로의 전환이 공공 리더의 안목에서 출발한다는 문제의식 아래, 강의실이 아닌 지역 로컬 콘텐츠 현장에서 트렌드를 직접 경험하고 성찰하도록 설계된 현장 경험형 교육훈련 프로그램입니다.</p>
+    <p class="note"><b>응답 방법</b> · 각 문항을 5점 척도로 평정해 주십시오. (5 매우 그렇다 ~ 1 전혀 그렇지 않다) &nbsp;|&nbsp; <b>결과 활용</b> · 문항별 4~5점 응답 비율을 내용타당도지수(CVI)로 산출합니다. &nbsp;|&nbsp; <b>제출</b> · 작성 후 하단 <b>‘구글 시트로 제출’</b> 버튼을 눌러 주십시오.</p>
+  </div>
+
+  <!-- Ⅰ. 응답자 정보 -->
+  <section class="block">
+    <h2>Ⅰ. 응답자 정보</h2>
+    <div class="block-body">
+      <div class="grid">
+        <label>성명</label><input id="r-name" type="text" placeholder="성명을 입력해 주세요" />
+        <label>소속</label><input id="r-org" type="text" placeholder="예) ○○대학교 / ○○연구원" />
+        <label>직위</label><input id="r-title" type="text" placeholder="예) 교수 / 책임연구원" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Ⅱ. 영역별 타당도 -->
+  <section class="block">
+    <h2>Ⅱ. 영역별 타당도 검토 (5점 척도)</h2>
+    <div class="block-body" id="items"></div>
+  </section>
+
+  <!-- Ⅲ. 서술형 -->
+  <section class="block">
+    <h2>Ⅲ. 서술형 의견</h2>
+    <div class="block-body">
+      <div class="fld">
+        <label>1. 강점 — 본 교육과정에서 특히 우수하다고 판단되는 점</label>
+        <textarea id="s-strength" placeholder="자유롭게 기술해 주십시오."></textarea>
+      </div>
+      <div class="fld">
+        <label>2. 보완점 — 타당도가 낮은 영역 또는 개선이 필요한 부분과 그 사유</label>
+        <textarea id="s-improve"></textarea>
+      </div>
+      <div class="fld">
+        <label>3. 추가·삭제 권고 — 추가·삭제·조정이 필요한 콘텐츠·활동·평가 요소</label>
+        <textarea id="s-addremove"></textarea>
+      </div>
+      <div class="fld">
+        <label>4. 종합 판정</label>
+        <div class="verdict">
+          <label><input type="radio" name="verdict" value="적합(원안 유지)"> 적합 (원안 유지)</label>
+          <label><input type="radio" name="verdict" value="부분 수정 후 적합"> 부분 수정 후 적합</label>
+          <label><input type="radio" name="verdict" value="재설계 필요"> 재설계 필요</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cvi">
+    <b>[참고] 내용타당도지수(CVI) 산출 방법</b>
+    <ul>
+      <li>문항별 CVI = (해당 문항에 4점 또는 5점을 준 전문가 수) ÷ (전체 전문가 수)</li>
+      <li>전체 척도 CVI = 전 문항 CVI의 평균</li>
+      <li>판정 기준(관례) : 전문가 6인 이상일 때 문항 CVI 0.78 이상, 전체 CVI 0.90 이상이면 타당도 확보. 기준 미달 문항은 수정·삭제 검토.</li>
+    </ul>
+  </div>
+
+  <div class="foot-crest" aria-hidden="true">
+    <svg width="26" height="26" viewBox="0 0 40 40" fill="none">
+      <g>
+        <ellipse cx="20" cy="9"  rx="6" ry="8.5" fill="#d5352b"/>
+        <ellipse cx="31" cy="16" rx="6" ry="8.5" fill="#e0483f" transform="rotate(72 31 16)"/>
+        <ellipse cx="27" cy="29" rx="6" ry="8.5" fill="#d5352b" transform="rotate(144 27 29)"/>
+        <ellipse cx="13" cy="29" rx="6" ry="8.5" fill="#e0483f" transform="rotate(216 13 29)"/>
+        <ellipse cx="9"  cy="16" rx="6" ry="8.5" fill="#d5352b" transform="rotate(288 9 16)"/>
+        <circle cx="20" cy="19" r="4.5" fill="#f4c430"/>
+      </g>
+    </svg>
+    <span>부산광역시인재개발원</span>
+  </div>
+</div>
+
+<div class="bar">
+  <button class="btn btn-primary" id="submitBtn" type="button">구글 시트로 제출</button>
+  <span class="status" id="status"></span>
+</div>
+
+<script>
+/* ============================================================
+   [설정] 아래 SHEETS_ENDPOINT 에 구글 Apps Script 웹앱 URL을 붙여넣으세요.
+   설정 방법은 파일 하단 주석(구글 시트 연동 안내) 참고.
+   ============================================================ */
+const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyIKZYiEg2AFtflfpwSm0GszwDBp9lp4n9zI8Ibc52BR8C5OB0uREkLUvuB_oAr4IxXWw/exec";
+
+/* 9개 검토 문항 (확정본 반영) */
+const ITEMS = [
+  ["① 요구·필요성", "초혁신·선도형 행정 전환이라는 배경에서, 관리직위 공무원의 ‘트렌드 인사이트 역량’ 개발이라는 문제의식이 시의적·정책적으로 타당하다.", ""],
+  ["② 목표 도출", "교육목표가 개발 필요성에서 논리적으로 도출되었고 명확하다.", "교육목표 : 트렌드 인사이트 역량 개발을 통한 초혁신·선도형 행정 역량 강화"],
+  ["③ 이론·설계 정합성", "듀이의 경험이론·메지로우의 전환학습이 ‘현장 경험(Action)·성찰(Reflection)·마무리 강의(Teaching)·실천 다짐(Training)’ 설계로 적절히 구현되었다.", ""],
+  ["④ 전환 기제", "로컬 콘텐츠 현장 경험이 기존 행정의 준거 틀을 흔드는 ‘혼란스러운 딜레마’로 실제 작동하여 관점 전환을 유발할 개연성이 있다.", ""],
+  ["⑤ 콘텐츠 선정", "주책공사·하버요가·비비비당 등 체험지 선정이 목표 역량(트렌드 인사이트)을 자극하기에 적합하다.", ""],
+  ["⑥ 구조·시간", "‘성공코드 강의(2h) → 현장 경험(10h) → 정리 워크숍(2h)’의 흐름과 시간 배분이 타당하다.", ""],
+  ["⑦ AI 진단도구", "자체 개발한 웹 기반 진단도구가 학습자의 수준·관점을 진단하는 데 타당하고 신뢰할 만하다.", ""],
+  ["⑧ 평가·전이", "산출물(‘바꿀 것 1가지’ 제안, ‘행동 변화 한 줄 선언’)이 현업 적용 및 학습성과 확인에 적절하다.", ""],
+  ["⑨ 확산성", "타 기관이 각자의 현장에 맞춰 커스터마이징할 수 있는 구조가 실효적이며 행정적 범용성을 갖는다.", ""]
+];
+const SCALE = [["5","매우 그렇다"],["4","그렇다"],["3","보통"],["2","아니다"],["1","전혀 아니다"]];
+
+/* 문항 렌더링 */
+const itemsBox = document.getElementById("items");
+ITEMS.forEach((it, i) => {
+  const n = i + 1;
+  const sub = it[2] ? `<span class="sub">※ ${it[2]}</span>` : "";
+  const opts = SCALE.map(s => `
+    <label class="opt">
+      <input type="radio" name="q${n}" value="${s[0]}">
+      <span class="mark"><b>${s[0]}</b><span>${s[1]}</span></span>
+    </label>`).join("");
+  itemsBox.insertAdjacentHTML("beforeend", `
+    <div class="item">
+      <div class="q">
+        <span class="tag">${it[0]}</span>
+        <span class="qtext">${it[1]}${sub}</span>
+      </div>
+      <div class="scale">${opts}</div>
+      <div class="opinion">
+        <label>의견(수정·보완 제안)</label>
+        <textarea id="op${n}" placeholder="필요 시 자유롭게 기술해 주세요"></textarea>
+      </div>
+    </div>`);
+});
+
+/* 토스트 */
+function toast(msg, isErr){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.className = "toast show" + (isErr ? " err" : "");
+  setTimeout(() => t.className = "toast", 2600);
+}
+
+/* 응답 수집 */
+function collect(){
+  const get = id => (document.getElementById(id).value || "").trim();
+  const data = {
+    제출시각: new Date().toLocaleString("ko-KR"),
+    성명: get("r-name"), 소속: get("r-org"), 직위: get("r-title")
+  };
+  for (let n = 1; n <= ITEMS.length; n++){
+    const sel = document.querySelector(`input[name="q${n}"]:checked`);
+    data[`Q${n}_점수`] = sel ? sel.value : "";
+    data[`Q${n}_의견`] = get(`op${n}`);
+  }
+  data.강점 = get("s-strength");
+  data.보완점 = get("s-improve");
+  data["추가삭제권고"] = get("s-addremove");
+  const v = document.querySelector('input[name="verdict"]:checked');
+  data.종합판정 = v ? v.value : "";
+  return data;
+}
+
+/* 필수값 검증 */
+function validate(d){
+  if (!d.성명) return "성명을 입력해 주세요.";
+  for (let n = 1; n <= ITEMS.length; n++){
+    if (!d[`Q${n}_점수`]) return `${ITEMS[n-1][0]} 문항에 점수를 선택해 주세요.`;
+  }
+  if (!d.종합판정) return "종합 판정을 선택해 주세요.";
+  return null;
+}
+
+/* 제출 */
+document.getElementById("submitBtn").addEventListener("click", async () => {
+  const data = collect();
+  const err = validate(data);
+  if (err){ toast(err, true); return; }
+  if (SHEETS_ENDPOINT.startsWith("여기에")){
+    toast("구글 Apps Script URL이 아직 설정되지 않았습니다.", true); return;
+  }
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true; document.getElementById("status").textContent = "제출 중…";
+  try{
+    await fetch(SHEETS_ENDPOINT, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data)
+    });
+    toast("제출이 완료되었습니다. 감사합니다.");
+    document.getElementById("status").textContent = "제출 완료";
+  }catch(e){
+    toast("제출 중 오류가 발생했습니다. 다시 시도해 주세요.", true);
+    document.getElementById("status").textContent = "";
+    btn.disabled = false;
+  }
+});
+</script>
+
+<!--
+============================================================================
+ [구글 시트 연동 안내]  (파일 배포자용 · 1회만 설정)
+============================================================================
+ 1) 구글 시트 새로 만들기 → 상단 메뉴 [확장 프로그램] → [Apps Script]
+ 2) 아래 코드를 붙여넣고 저장:
+
+    function doPost(e){
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+      var data  = JSON.parse(e.postData.contents);
+      if (sheet.getLastRow() === 0){
+        sheet.appendRow(Object.keys(data));      // 첫 제출 시 헤더 자동 생성
+      }
+      sheet.appendRow(Object.keys(data).map(function(k){ return data[k]; }));
+      return ContentService.createTextOutput("ok");
+    }
+
+ 3) [배포] → [새 배포] → 유형 '웹 앱'
+      · 실행: 나 / 액세스 권한: 모든 사용자
+ 4) 생성된 '웹 앱 URL'을 이 파일 상단 SHEETS_ENDPOINT 값에 붙여넣기
+ 5) 파일을 웹호스팅(예: GitHub Pages, Netlify, 원내 서버)에 업로드하면 끝
+============================================================================
+-->
+</body>
+</html>
