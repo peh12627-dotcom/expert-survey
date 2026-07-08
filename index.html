@@ -332,24 +332,39 @@ function validate(d){
 document.getElementById("submitBtn").addEventListener("click", async () => {
   const data = collect();
   const err = validate(data);
-  if (err){ toast(err, true); return; }
+  if (err){
+    toast(err, true);
+    document.getElementById("status").textContent = "⚠ " + err + " (아직 제출되지 않았습니다)";
+    return;
+  }
   if (SHEETS_ENDPOINT.startsWith("여기에")){
     toast("구글 Apps Script URL이 아직 설정되지 않았습니다.", true); return;
   }
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; document.getElementById("status").textContent = "제출 중…";
+  btn.disabled = true; document.getElementById("status").textContent = "제출 중… (저장 확인까지 몇 초 걸릴 수 있습니다)";
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 30000);
   try{
-    await fetch(SHEETS_ENDPOINT, {
+    const res = await fetch(SHEETS_ENDPOINT, {
       method: "POST",
-      mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      signal: ctrl.signal
     });
-    toast("제출이 완료되었습니다. 감사합니다.");
-    document.getElementById("status").textContent = "제출 완료";
+    clearTimeout(timer);
+    const txt = await res.text();
+    if (res.ok && txt.indexOf("ok") !== -1){
+      /* 구글 시트가 "ok"를 돌려준 경우에만 진짜 저장된 것 */
+      toast("응답이 구글 시트에 저장되었습니다. 감사합니다.");
+      document.getElementById("status").textContent = "저장 확인됨 ✓ (" + new Date().toLocaleTimeString('ko-KR') + ")";
+      btn.textContent = "제출 완료";
+    }else{
+      throw new Error("save-not-confirmed");
+    }
   }catch(e){
-    toast("제출 중 오류가 발생했습니다. 다시 시도해 주세요.", true);
-    document.getElementById("status").textContent = "";
+    clearTimeout(timer);
+    toast("저장이 확인되지 않았습니다. 응답은 화면에 남아 있으니 잠시 후 다시 제출해 주세요.", true);
+    document.getElementById("status").textContent = "⚠ 저장 실패 — 다시 제출해 주세요. 계속 실패하면 휴대폰(외부망)에서 접속하시거나 담당자에게 알려주세요.";
     btn.disabled = false;
   }
 });
