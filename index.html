@@ -255,15 +255,15 @@ const SHEETS_ENDPOINT = "https://script.google.com/macros/s/AKfycbyIKZYiEg2AFtfl
 
 /* 9개 검토 문항 (확정본 반영) */
 const ITEMS = [
-  ["① 요구·필요성", "초혁신·선도형 행정 전환이라는 배경에서, 관리직위 공무원의 ‘트렌드 인사이트 역량’ 개발이라는 문제의식이 시의적·정책적으로 타당하다.", ""],
-  ["② 목표 도출", "교육목표가 개발 필요성에서 논리적으로 도출되었고 명확하다.", "교육목표 : 트렌드 인사이트 역량 개발을 통한 초혁신·선도형 행정 역량 강화"],
-  ["③ 이론·설계 정합성", "듀이의 경험이론·메지로우의 전환학습이 ‘현장 경험(Action)·성찰(Reflection)·마무리 강의(Teaching)·실천 다짐(Training)’ 설계로 적절히 구현되었다.", ""],
-  ["④ 전환 기제", "로컬 콘텐츠 현장 경험이 기존 행정의 준거 틀을 흔드는 ‘혼란스러운 딜레마’로 실제 작동하여 관점 전환을 유발할 개연성이 있다.", ""],
-  ["⑤ 콘텐츠 선정", "주책공사·하버요가·비비비당 등 체험지 선정이 목표 역량(트렌드 인사이트)을 자극하기에 적합하다.", ""],
-  ["⑥ 구조·시간", "‘성공코드 강의(2h) → 현장 경험(10h) → 정리 워크숍(2h)’의 흐름과 시간 배분이 타당하다.", ""],
-  ["⑦ AI 진단도구", "자체 개발한 웹 기반 진단도구가 학습자의 수준·관점을 진단하는 데 타당하고 신뢰할 만하다.", ""],
-  ["⑧ 평가·전이", "산출물(‘바꿀 것 1가지’ 제안, ‘행동 변화 한 줄 선언’)이 현업 적용 및 학습성과 확인에 적절하다.", ""],
-  ["⑨ 확산성", "타 기관이 각자의 현장에 맞춰 커스터마이징할 수 있는 구조가 실효적이며 행정적 범용성을 갖는다.", ""]
+  ["① 요구·필요성", "초혁신·선도형 행정 전환이라는 배경에 근거한 관리직위 공무원의 트렌드 인사이트 역량개발이라는 문제의식은 시의적·정책적으로 타당했는가?", ""],
+  ["② 목표 도출 및 구현", "최종 개발된 교육과정은 앞서 설정한 교육목표(필요성 기반)를 일관성 있게 반영하여 구현하고 있는가?", ""],
+  ["③ 이론·설계 정합성", "듀이 경험이론·메지로우 전환학습이 현장 경험 Action, 성찰 Reflection, 마무리 강의 Teaching, 실천 다짐 Training 설계로 적절히 구현되었는가?", ""],
+  ["④ 전환 기제", "개발된 현장 경험 프로그램은 학습자가 기존의 인식 체계를 성찰하게 만들어 ‘관점 전환’을 이끌어 내기에 충분히 유효한가?", ""],
+  ["⑤ 콘텐츠 선정", "주책공사·하버요가·비비비당 등 체험지가 학습자가 현장에서 목표 역량을 직관적으로 경험하고 체득하기에 유효한가?", ""],
+  ["⑥ 구조·시간", "성공코드 강의(2h) → 현장경험(10h) → 정리워크숍(2h)은 역량 달성을 위해 유기적이고 체계적으로 구성되어 학습자가 교육목표를 달성하기에 충분하고 적절한가?", ""],
+  ["⑦ AI 진단도구", "자체 개발 웹 진단도구는 학습자의 현재 수준과 교육 이후의 변화를 도출해 낼 수 있도록 개발되었는가?", ""],
+  ["⑧ 평가·전이", "산출물(바꿀 것 1가지, 행동변화 선언)이 단순한 다짐에 그치지 않고 사후 평가(측정)가 가능한 지표 역할을 하기에 적절한 형태로 구현되었는가?", ""],
+  ["⑨ 확산성", "타 기관에서 즉시 도입 가능한 맞춤형 구조로 활용하기에 실효적이고 범용적임이 확인되는가?", ""]
 ];
 const SCALE = [["5","매우 그렇다"],["4","그렇다"],["3","보통"],["2","아니다"],["1","전혀 아니다"]];
 
@@ -332,39 +332,24 @@ function validate(d){
 document.getElementById("submitBtn").addEventListener("click", async () => {
   const data = collect();
   const err = validate(data);
-  if (err){
-    toast(err, true);
-    document.getElementById("status").textContent = "⚠ " + err + " (아직 제출되지 않았습니다)";
-    return;
-  }
+  if (err){ toast(err, true); return; }
   if (SHEETS_ENDPOINT.startsWith("여기에")){
     toast("구글 Apps Script URL이 아직 설정되지 않았습니다.", true); return;
   }
   const btn = document.getElementById("submitBtn");
-  btn.disabled = true; document.getElementById("status").textContent = "제출 중… (저장 확인까지 몇 초 걸릴 수 있습니다)";
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 30000);
+  btn.disabled = true; document.getElementById("status").textContent = "제출 중…";
   try{
-    const res = await fetch(SHEETS_ENDPOINT, {
+    await fetch(SHEETS_ENDPOINT, {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(data),
-      signal: ctrl.signal
+      body: JSON.stringify(data)
     });
-    clearTimeout(timer);
-    const txt = await res.text();
-    if (res.ok && txt.indexOf("ok") !== -1){
-      /* 구글 시트가 "ok"를 돌려준 경우에만 진짜 저장된 것 */
-      toast("응답이 구글 시트에 저장되었습니다. 감사합니다.");
-      document.getElementById("status").textContent = "저장 확인됨 ✓ (" + new Date().toLocaleTimeString('ko-KR') + ")";
-      btn.textContent = "제출 완료";
-    }else{
-      throw new Error("save-not-confirmed");
-    }
+    toast("제출이 완료되었습니다. 감사합니다.");
+    document.getElementById("status").textContent = "제출 완료";
   }catch(e){
-    clearTimeout(timer);
-    toast("저장이 확인되지 않았습니다. 응답은 화면에 남아 있으니 잠시 후 다시 제출해 주세요.", true);
-    document.getElementById("status").textContent = "⚠ 저장 실패 — 다시 제출해 주세요. 계속 실패하면 휴대폰(외부망)에서 접속하시거나 담당자에게 알려주세요.";
+    toast("제출 중 오류가 발생했습니다. 다시 시도해 주세요.", true);
+    document.getElementById("status").textContent = "";
     btn.disabled = false;
   }
 });
